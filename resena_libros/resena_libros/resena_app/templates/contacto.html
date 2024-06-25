@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Contactanos{% endblock %}
+{% block contenido %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Contacto</h2>
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-dark">Enviar</button>
+            </form>
+        </div>
+        <div class="col-md-6 rounded p-3" style="background-color: #e0e0e0;">
+            <h3 class="text-center">Información de Contacto</h3>
+            <p class="text-center"><i class="fa-solid fa-map-pin"></i> Calle Principal 132, Santiago, Región Metropolitana</p>
+            <p class="text-center"><i class="fa-solid fa-envelope"></i> resenas_libros@mail.com</p>
+            <p class="text-center"><i class="fa-solid fa-phone"></i> +123456789</p>
+            <div class="row justify-content-center">
+                <div class="col-auto text-center">
+                    <a href="https://www.facebook.com/" class="text-dark"><i class="fa fa-facebook fa-2x"></i></a>
+                    <a href="https://twitter.com/?lang=es" class="text-dark"><i class="fa fa-twitter fa-2x"></i></a>
+                    <a href="https://www.instagram.com/" class="text-dark"><i class="fa fa-instagram fa-2x"></i></a>
+                    <a href="https://discord.com/" class="text-dark"><i class="fa fa-discord fa-2x"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

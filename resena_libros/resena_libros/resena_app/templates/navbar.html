@@ -1,0 +1,81 @@
+{% load static %}
+<nav class="navbar navbar-light bg-light navbar-expand-lg fixed-top">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <a class="navbar-brand" href="{% url 'inicio' %}">
+          <i class="fa-solid fa-book"></i>
+        </a>
+        <li class="nav-item">
+          <a class="nav-link active roboto-medium" href="{% url 'inicio' %}">Inicio</a>
+        </li>
+        <a class="nav-link active roboto-medium" href="{% url 'contacto' %}">Contacto</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link active dropdown-toggle roboto-medium" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Libros
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item roboto-medium" href="{% url 'libros' %}">Buscar Libros</a></li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        {% if user.is_authenticated %}
+        {% if user.usuario.tipo_usuario == 'lector' %}
+            <li class="nav-item dropdown">
+              <a class="nav-link active dropdown-toggle roboto-medium" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-regular fa-user"></i>
+                Hola, {{ user.username }}
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item roboto-regular" href="{% url 'perfil' %}">Perfil {{ user.usuario.tipo_usuario | title }}</a></li>
+                <li><a class="dropdown-item roboto-regular" href="{% url 'mis_resenas' %}">Mis Reseñas</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="dropdown-item roboto-regular">Salir</button>
+                  </form>
+                </li>
+              </ul>
+            </li>
+          {% endif %}
+          {% if user.usuario.tipo_usuario == 'administrador' or user.is_staff %}
+            <li class="nav-item dropdown">
+              <a class="nav-link active dropdown-toggle roboto-medium" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user"></i>
+                Hola, {{ user.username }}
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item roboto-regular" href="{% url 'lista_usuarios' %}">Lista de Usuarios</a></li>
+                <li><a class="dropdown-item roboto-regular" href="{% url 'publicar_libro' %}">Publicar Libro</a></li>
+                <li><a class="dropdown-item roboto-regular" href="{% url 'publicar_autor' %}">Publicar Autor</a></li>
+                <li><a class="dropdown-item roboto-regular" href="{% url 'publicar_genero' %}">Publicar Genero</a></li> 
+                <li><hr class="dropdown-divider"></li>
+                <li><form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="dropdown-item roboto-regular">Salir</button>
+                  </form>
+                </li>
+              </ul>
+            </li>
+          {% endif %}
+        {% else %}
+        <li class="nav-item dropdown">
+          <a class="nav-link active dropdown-toggle roboto-medium" href="#" role="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Iniciar Sesion
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item roboto-medium" href="{% url 'inicia_sesion' %}">Como lector</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item roboto-medium" href="{% url 'inicia_sesion_admin' %}">Como administrador</a></li>
+          </ul>
+        </li>
+        {% endif %}
+        {% if not user.is_authenticated %}
+        <li class="margin_button roboto-medium"><a href="{% url 'registrate' %}" class="btn btn-dark">Registrarse</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>

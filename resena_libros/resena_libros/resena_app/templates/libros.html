@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Encuentra tus libros{% endblock %}
+{% block contenido %}
+<div class="container-tres">
+    <h2>Buscar Libros</h2>
+    <form method="GET">
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-dark">Buscar</button>
+    </form>
+    <hr>
+    <h3>Resultados de la Búsqueda</h3>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        {% for libro in libros %}
+            <div class="col">
+                <div class="card h-100">
+                    {% if libro.portada %}
+                        <img src="{{ libro.portada.url }}" class="card-img-top img-fluid" alt="Portada de {{ libro.titulo }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ libro.titulo }}</h5>
+                        <p class="card-text">Género: {{ libro.genero.nombre }}</p>
+                        <p class="card-text">Autor: {{ libro.autor }}</p>
+                        {% if user.usuario.tipo_usuario == 'lector' %}
+                        <a href="{% url 'detalle_libro' libro.id %}" class="btn btn-dark">Ver Detalle</a>
+                        {% endif %}
+                        {% if user.usuario.tipo_usuario == 'administrador' or user.is_staff %}
+                        <a href="{% url 'detalle_libro_admin' libro.id %}" class="btn btn-dark">Ver Detalle</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <p>No se encontraron resultados.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+

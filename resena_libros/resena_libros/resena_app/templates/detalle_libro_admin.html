@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %}{{ libro.titulo }}{% endblock %}
+{% block contenido %}
+<div class="container">
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <h2>{{ libro.titulo }}</h2>
+    <div class="row">
+        <div class="col-md-4">
+            {% if libro.portada %}
+                <img src="{{ libro.portada.url }}" class="img-fluid" alt="Portada de {{ libro.titulo }}">
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            <p><strong>Género:</strong> {{ libro.genero.nombre }}</p>
+            <p><strong>Autor:</strong> {{ libro.autor }}</p>
+            <p><strong>Descripción:</strong> {{ libro.descripcion }}</p>
+            <form method="post" action="" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este libro?');">
+                {% csrf_token %}
+                <button type="submit" name="eliminar_libro" class="btn btn-danger">Eliminar Libro</button>
+            </form>
+        </div>
+    </div>
+    <hr>
+    <h3>Reseñas</h3>
+    <div class="row">
+        {% for reseña in reseñas %}
+        <div class="col-md-12 mb-3">
+            <div class="card position-relative">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5 class="card-title">{{ reseña.usuario.nombre }}</h5>
+                            <p class="card-text">{{ reseña.comentario }}</p>
+                            <small class="text-muted">{{ reseña.fecha_reseña }}</small>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <div>
+                                {% for star in reseña.estrellas %}
+                                    <span class="fa fa-star checked"></span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form method="post" action="" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta reseña?');" class="position-absolute top-0 end-0 m-2">
+                    {% csrf_token %}
+                    <input type="hidden" name="resena_id" value="{{ reseña.id }}">
+                    <button type="submit" name="eliminar_resena" class="btn btn-link text-danger p-0">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% empty %}
+        <p>No hay reseñas aún.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

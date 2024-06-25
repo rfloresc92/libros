@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Mis Reseñas{% endblock %}
+{% block contenido %}
+<div class="container">
+    <h2>Mis Reseñas</h2>
+    <div class="row">
+        <div class="col-md-12">
+            {% if resenas %}
+                {% for resena in resenas %}
+                    <div class="card mb-3 position-relative">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ resena.libro.titulo }}</h5>
+                            <p class="card-text">Calificación: {{ resena.calificacion }}</p>
+                            <p class="card-text">{{ resena.comentario }}</p>
+                            <p class="card-text"><small class="text-muted">{{ resena.fecha_reseña }}</small></p>
+                            <a href="{% url 'editar_resena' resena.id %}" class="btn btn-primary">Editar</a>
+                            <form method="post" action="" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta reseña?');" class="position-absolute top-0 end-0 m-2">
+                                {% csrf_token %}
+                                <input type="hidden" name="resena_id" value="{{ resena.id }}">
+                                <button type="submit" name="eliminar_resena" class="btn btn-link text-danger p-0">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No has publicado ninguna reseña aún.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

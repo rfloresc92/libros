@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Usuarios{% endblock %}
+{% block contenido %}
+<div class="container">
+    <h2>Lista de Usuarios</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Tipo de Usuario</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuario in usuarios %}
+            <tr>
+                <td>{{ usuario.nombre }}</td>
+                <td>{{ usuario.email }}</td>
+                <td>{{ usuario.tipo_usuario }}</td>
+                <td>
+                    <form method="post" class="d-flex align-items-center" style="margin-bottom: 10px;">
+                        {% csrf_token %}
+                        <input type="hidden" name="usuario_id" value="{{ usuario.id }}">
+                        <select name="nuevo_tipo" class="form-select me-2">
+                            <option value="lector" {% if usuario.tipo_usuario == "lector" %}selected{% endif %}>Lector</option>
+                            <option value="administrador" {% if usuario.tipo_usuario == "administrador" %}selected{% endif %}>Administrador</option>
+                        </select>
+                        <button type="submit" class="btn btn-dark">Actualizar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+

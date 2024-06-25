@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Comenta y Comparte tus libros favoritos{% endblock %}
+{% load static %}
+{% block contenido %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1>Bienvenido a nuestra comunidad de lectores</h1>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-4 text-center">
+            <img src="{% static 'img/imagen1.jpg' %}" alt="Imagen 1" class="img-fluid">
+            <h3>Busca tus libros favoritos</h3>
+            <p>Explora nuestra amplia colección de libros y encuentra tus favoritos en un solo lugar.</p>
+        </div>
+        <div class="col-md-4 text-center">
+            <img src="{% static 'img/imagen2.webp' %}" alt="Imagen 2" class="img-fluid">
+            <h3>Haz tus propias reseñas</h3>
+            <p>Comparte tus opiniones y experiencias sobre los libros que has leído con otros lectores.</p>
+        </div>
+        <div class="col-md-4 text-center">
+            <img src="{% static 'img/imagen3.png' %}" alt="Imagen 3" class="img-fluid">
+            <h3>Califícalos y comparte con la comunidad</h3>
+            <p>Da tu calificación a los libros y descubre lo que otros lectores piensan sobre ellos.</p>
+        </div>
+        <div class="col-md-12 text-center">
+        <h3>¡Registrate o inicia sesion para empezar a comentar!</h3>
+    </div>
+    </div>
+</div>
+{% endblock %}
